@@ -1,0 +1,399 @@
+<?php
+/**
+ * MpcClient component
+ *
+ * Call Mpc Interface by Webservice.
+ *
+ * PHP 5
+ *
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://cakephp.org CakePHP(tm) Project
+ * @package       Cake.Controller.Component
+ * @since         CakePHP(tm) v 0.10.0.1076
+ * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ */
+
+
+App::uses('Component', 'Controller');
+App::uses('String', 'Utility');
+App::uses('Xml', 'Utility');
+App::uses('Debugger', 'Utility');
+
+
+class MpcClientComponent extends Component {
+
+/**
+ * $wsdl
+ * @var mixed
+ */
+    private $wsdl = null;
+
+/**
+ * soap 客户端实例化对象
+ * @var object
+ */
+    private $soapClient = null;
+
+/**
+ * Constructor 构造函数
+ *
+ * @param ComponentCollection $collection A ComponentCollection this component can use to lazy load its components
+ * @param array $settings Array of configuration settings.
+ */
+	public function __construct(ComponentCollection $collection, $settings = array()) {
+		$this->wsdl = @$settings['wsdl']?:FULL_BASE_URL . "/mpcinterface.wsdl";
+
+        $this->soapClient = new SoapClient($this->wsdl, array(
+                                    "connection_timeout"=>30,
+                                    "encoding"=>"utf-8"
+                                ));
+
+        if(!@$settings['wsdl']){
+        	$this->soapClient->__setLocation($settings['mpcUrl']);
+        }
+		parent::__construct($collection, $settings);
+	}
+
+/**
+ * 析构函数
+ * 释放soap客户端对象
+ */
+	public function __destruct() {
+        $this->soapClient = null;
+    }
+
+/**
+ * 查询任务详情
+ * @param string  $ProjectID 任务ID
+ */
+    public function GetProjectList($projectID = null){
+        return $this->docommit(__FUNCTION__, array(
+                                                "ProjectID"=>$projectID
+                                            )); 
+    }
+
+/**
+ * 查询工位详情
+ * @param int $JobID 工位ID
+ */
+    public function GetJobList($JobID = null){
+        return $this->docommit(__FUNCTION__, array(
+                                            "JobID"=>$JobID
+                                        ));
+    }
+
+/**
+ * 删除任务
+ * @param string $ProjectID 任务ID
+ */
+    public function DeleteProject($ProjectID = null){
+        return $this->docommit(__FUNCTION__, array(
+                                    "ProjectID"=>$ProjectID
+                                ));
+    }
+
+/**
+ * 暂停指定工位
+ * @param int $JobID 工位ID
+ */
+    public function PauseJob($JobID = null){
+        return $this->docommit(__FUNCTION__, array(
+                                    "JobID"=>$JobID
+                                ));
+    }
+
+/**
+ * 恢复指定工位
+ * @param int $JobID 工位ID
+ */
+    public function ResumeJob($JobID = null){
+        return $this->docommit(__FUNCTION__, array(
+                                    "JobID"=>$JobID
+                                ));
+    }
+
+/**
+ * 取消指定工位
+ * @param int $JobID 工位ID
+ */
+    public function CancelJob($JobID = null){
+        return $this->docommit(__FUNCTION__, array(
+                                    "JobID"=>$JobID
+                                ));
+    }
+
+/**
+ * 设置指定任务优先级
+ * @param string $ProjectID 任务ID
+ * @param int    $Priority  优先级值
+ */
+    public function SetProjectPriority($ProjectID, $Priority){
+        return $this->docommit(__FUNCTION__, array(
+                                            "ProjectID"=>$ProjectID,
+                                            "Priority"=>$Priority
+                                        ));
+    }
+
+/**
+ * 重置工位
+ * @param string $JobID 步骤ID
+ */
+    public function ResetJob($JobID){
+        return $this->docommit(__FUNCTION__, array(
+                                            "JobID"=>$JobID
+                                        ));
+    }
+
+/**
+ * 添加任务
+ * @param array files 待转码文件参数
+ * @param int policyID 策略ID
+ * @param array settings 附加设置
+ */
+    public function AddTask($files = array(), $settings = array()) {
+        $taskGUID = strtoupper(String::uuid()); //生成任务ID
+        $publicTime = date('Y-m-d H:i:s');      //任务产生时间
+
+        $req_data = array(
+            'MPCWebCmd'   =>  array(
+                'CommandType'   =>  __FUNCTION__,
+                __FUNCTION__    =>  array(
+                    'MPC'   =>  array(
+                        'Header'    =>  array(
+                            'Version'       =>  '1.0',
+                            'RequestID'     =>  $taskGUID,
+                            'RequestTime'   =>  $publicTime,
+                            'RequestMQ'     =>  ''
+                        ),
+                        'Content'   =>  array(
+                            'MPCType'       =>  __FUNCTION__,
+                            __FUNCTION__    =>  array(
+                                    'BaseInfo'  =>  array(
+                                        'TaskGUID'      =>  $taskGUID,
+                                        'TaskName'      =>  $settings['taskName']?:$taskGUID,
+                                        'ColumnName'    =>  '',
+                                        'TaskLength'    =>  'n/a',
+                                        'TaskPriority'  =>  0,
+                                        'DispatchType'  =>  'auto',
+                                        'Controllable'  =>  1,
+                                        'PutinTime'     =>  $publicTime
+                                    ),
+                                    'MediaFile'     =>  array(),
+                                    'SourceInfo'    =>  array(
+                                        'HostName'  =>  'Reddrake-PC',
+                                        'IpAddress' =>  '172.16.146.37',
+                                        'SubSystem' =>  'xBuilder'
+                                    ),
+                                    'TaskInfo'      =>  array(
+                                        'Scope'     =>  'SoapTargetInfo',
+                                        'Schema'    =>  '',
+                                        'Data'      =>  array(
+                                            'SoapTargetInfo'    =>  array(
+                                                'SoapTargetUri' =>  MPC_CALLBACK
+                                            ),
+                                            'IsSplit'   =>  ''
+                                        )
+                                    ),
+                                    'NotifyTarget'  =>  'mpc_response',
+                                    'NotifyEvent'   =>  '4095'
+                            )
+                        )
+                    )
+                )
+            ));
+        
+        if(isset($settings['policyID'])){       //走策略方式
+            $req_data['MPCWebCmd'][__FUNCTION__]['MPC']['Content'][__FUNCTION__]['PolicyID'] = $settings['policyID'];
+        }elseif ($settings['transType'] == 'joblist') {
+            foreach ($settings['joblist'] as $value) {
+                $obj[] = array(
+                    'GroupType'     =>  'out',
+                    'MediaType'     =>  'media',
+                    'PathFormat'    =>  PATH_FORMAT,
+                    'UseTracks'     =>  '1,2,',
+                    'CodecParam'    =>  array(
+                        'FileFormat'    =>  $value['Transcode']['FileFormat'],
+                        'VideoFormat'   =>  $value['Transcode']['VideoFormat'],
+                        'BitRate'       =>  $value['Transcode']['BitRate'] * 1000,
+                        'FrameRate'     =>  $value['Transcode']['FrameRate'],
+                        'ImageWidth'    =>  $value['Transcode']['ImageWidth'],
+                        'ImageHeight'   =>  $value['Transcode']['ImageHeight'],
+                        'WidthRatio'    =>  $value['Transcode']['WidthRatio'],
+                        'KeyFrameRate'  =>  $value['Transcode']['Gop'],
+                        'Transform'     =>  array(
+                            'Mode'  =>  $value['Transcode']['ConvertModel']
+                        ),
+                        'AudioFormat'   =>  $value['Transcode']['AudioFormat'],
+                        'SamplesPerSec' =>  $value['Transcode']['SamplesPerSec'],
+                        'BitsPerSample' =>  $value['Transcode']['BitsPerSample'],
+                        'ReplaceByMainFormat'   =>  0,
+                        'AssistFormat'  =>  0,
+                        'SpecialParam'  =>  array(
+                            'CDATA' =>  '',
+                            'SpecialParam'  =>  array(
+                                'VideoParam'    =>  array(
+                                    'sar_width'     =>  1,
+                                    'sar_height'    =>  1,
+                                    'speed'         =>  6,
+                                    'delay_frames'  =>  60,
+                                    'profile'       =>  4,
+                                    'level'         =>  30,
+                                    'definterlace'  =>  0,
+                                    'interlace'     =>  0,
+                                    'ref_frames'    =>  0,
+                                    'bframes'       =>  -1,
+                                    'vbv_buffer'    =>  10,
+                                    'b_aud'         =>  0,
+                                    'slice_frames'  =>  -1,
+                                    'decode_threads'=>  8,
+                                    'sps_id'        =>  -1,
+                                    'OptimizeMode'  =>  0,
+                                    'spsid_mode'    =>  0
+                                ),
+                                'AudioParam'    =>  '',
+                                'FileParam' =>  array(
+                                    'HintTrackValue'    =>  0,
+                                    'CreateStreamIndex' =>  0
+                                )
+                            ),
+                            'ECDATA' => ''
+                        )
+                    )
+                );
+            }
+
+            $req_data['MPCWebCmd'][__FUNCTION__]['MPC']['Content'][__FUNCTION__]['JobList'] = array(
+                'StepID'    =>  0,
+                'JobType'   =>  'nmfastsplit',
+                'JobInfo'   =>  array(
+                    'Scope'     =>  'tv_nmfastsplitjobparam2',
+                    'Schema'    =>  'sbnmfastsplitjobparam2.xsd',
+                    'Data'      =>  array(
+                        'NMFastSplitParam2' =>  array(
+                            'Src'   =>  array(
+                                'GroupType'     =>  'S',
+                                'VideoMedia'    =>  'V',
+                                'AudioMedia'    =>  array(
+                                    'MediaType'     =>  'V',
+                                    'UseChannels'   =>  0,
+                                    'MapAsTracks'   =>  0
+                                )
+                            ),
+                            'Option'    =>  array(
+                                'DeleteSource'  =>  0,
+                                'OnTargetExist' =>  1,
+                                'AddCleanInfo'  =>  0,
+                                'AnalyzeTarget' =>  0,
+                                'CreateOtcFile' =>  -1,
+                                'UseSDKType'    =>  1
+                            ),
+                            'Obj'   =>  $obj,
+                            'SplitRule' =>  array(
+                                'TmpFilePath'   =>  TMP_FILE_PATH,
+                                'SplitTime'     =>  @$settings['joblist'][0]['Transcode']['SliceTime']?:10,
+                                'MinSplitTime'  =>  5,
+                                'MediaFileType' =>  0
+                            )
+                        )
+                    )
+                ),
+                'NotifyMask'    =>  268435455,
+                'PRI'           =>  0,
+                'Bookto'        =>  '*',
+                'AtomJob'       =>  'No'
+            );
+        }
+$this->log($settings, 'debug');
+        foreach($files as $file){
+            $OutPoint = ($settings['OutPoint'])?:1200000000;//isset($settings['policyID'])?1200000000:6000000000;
+            $req_data['MPCWebCmd'][__FUNCTION__]['MPC']['Content'][__FUNCTION__]['MediaFile'][] = array(
+                    'GroupType' =>  'S',
+                    'MediaType' =>  'V',
+                    'FileName'  =>  $file,
+                    'InPoint'   =>  0,
+                    'OutPoint'  =>  $OutPoint
+                );
+
+        }
+        return array('taskGUID'=>$taskGUID,'result'=>$this->docommit(__FUNCTION__, array(), Xml::fromArray($req_data)->asXML()));
+    }
+
+    public function GetSvcList(){
+        return $this->docommit(__FUNCTION__);
+    }
+
+/**
+ * 构造发送的XML
+ * @param  string $CommandType 要执行的操作/函数
+ * @param  array  $CommandArgs 操作附带的参数
+ * @return string              协议XML字符串
+ */
+    public function buildXml($CommandType, $CommandArgs=array()) {
+    	if(!$CommandType) return false;
+
+        $req_data = array(
+            'MPCWebCmd' =>  array(
+                'CommandType'   =>  $CommandType
+            )
+        );
+
+        if($CommandArgs){
+            $req_data['MPCWebCmd'][$CommandType] = $CommandArgs;
+        }
+
+		return Xml::fromArray($req_data)->asXML();
+    }
+
+/**
+ * 执行发送和返回状态检测
+ * @param  string $CommandType 要执行的操作/函数
+ * @param  array  $CommandArgs 操作附带的参数
+ * @return boolean             执行操作结果
+ */
+    public function docommit($CommandType, $CommandArgs=array(), $req_data = null) {
+    	if(!$CommandType) return false;
+
+    	if(!$req_data){
+    		$req_data = $this->buildXml($CommandType, $CommandArgs);
+    	}
+        $req_data = str_replace('<CDATA/>', '<![CDATA[', $req_data);
+        $req_data = str_replace('<ECDATA/>', ']]>', $req_data);
+
+$this->log($req_data,'MpcClient');
+    	try {
+            $returnXmlContent = $this->soapClient->mpccommit($req_data);
+$this->log($returnXmlContent, 'MpcClient');
+            $xmlObject = Xml::build($returnXmlContent);
+
+            //检测错误
+            if ($xmlObject->Rtn_Unknow && (int)$xmlObject->Rtn_Unknow->MPC_Status->Status) {
+                $this->setError((string)$xmlObject->Rtn_Unknow->MPC_Status->Remark);
+                return false;
+            } 
+            elseif (intval($xmlObject->{"Rtn_".$CommandType}->MPC_Status->Status) == 2) {
+                $this->setError((string)$xmlObject->{"Rtn_".$CommandType}->MPC_Status->Remark);
+                return false;
+            }
+            return Xml::toArray($xmlObject);
+        }
+        catch (SoapFault $e) {
+            $this->setError("SOAP Error: ".$e->getMessage()." (".$this->mpcUrl.")");
+            return false;
+        }
+    }
+
+/**
+ * 错误处理函数
+ * @param string  $info 错误描述
+ * @param integer $code 错误代码
+ */
+    private function setError($info, $code=1) {
+        $this->log($info,'MpcClient');
+    }
+}

@@ -1,0 +1,17 @@
+@charset "utf-8";
+/* CSS Document */
+
+*{margin:0;border:0;padding:0;}
+body{font:12px/24px "Microsoft YaHei";}
+li{list-style:none;}
+.loginBox{background:url(../default/images/topbg.jpg) repeat-x top;}
+.login{background:url(../default/images/loginbg.jpg) no-repeat left top;width:312px;margin:0 auto;height:461px;padding:162px 0 0px 643px;}
+.login li{padding:2px 0 20px 0;overflow:hidden;_zoom:1;}
+.login li span{width:50px;text-align:right;float:left;margin-right:10px;}
+.login .userName,.login .password,.login .yzm{border:1px solid #ccc;border-radius:2px;background:url(../default/images/ico.png) no-repeat 3px 6px;padding:2px 0 2px 20px;height:24px;line-height:24px;width:150px;}
+.login .password{background-position:3px -45px;}
+.login .yzm{background:none;width:70px;padding-left:3px;float:left;}
+.login .sub{background:url(../default/images/ico.png) no-repeat 0 -101px;width:104px;height:40px;cursor:pointer;}
+.login .yzmImg{border:1px solid #e5e5e5;float:left;margin-left:10px;}
+
+.bottomInfo{background:url(../default/images/bottombg.jpg) repeat-x bottom;height:74px;position:absolute;bottom:0;width:100%;text-align:center;color:#646562;line-height:74px;}

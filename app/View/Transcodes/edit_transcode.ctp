@@ -1,0 +1,1 @@
+<?php echo $this->element('transcodeGroup/detail',array('transcode'=>$transcode));?>

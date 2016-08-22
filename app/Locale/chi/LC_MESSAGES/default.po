@@ -1,0 +1,645 @@
+# LANGUAGE translation of CakePHP Application
+msgid ""
+msgstr ""
+
+msgid "Account"
+msgstr "账号"
+
+msgid "Password"
+msgstr "密码"
+
+msgid "Role"
+msgstr "角色"
+
+msgid "Role name"
+msgstr "角色名"
+
+msgid "sort"
+msgstr "排序"
+
+msgid "Create data"
+msgstr "创建时间"
+
+msgid "Select role"
+msgstr "选择角色"
+
+msgid "Select user role"
+msgstr "（选择用户角色，必选）"
+
+msgid "Nickname"
+msgstr "昵称"
+
+msgid "Email"
+msgstr "邮箱"
+
+msgid "Create"
+msgstr "创建"
+
+msgid "Create User"
+msgstr "创建用户"
+
+msgid "Delete User"
+msgstr "删除用户"
+
+msgid "Edit user"
+msgstr "编辑用户"
+
+msgid "Show users"
+msgstr "查看用户"
+
+msgid "edit"
+msgstr "编辑"
+
+msgid "delete"
+msgstr "删除"
+
+msgid "Old password"
+msgstr "旧密码"
+
+msgid "New password"
+msgstr "新密码"
+
+msgid "Enter the new password again"
+msgstr "再次输入新密码"
+
+msgid "Are you delete"
+msgstr "确定要删除吗？"
+
+msgid "Email already exists"
+msgstr "【%s】邮箱已存在"
+
+msgid "Add successful"
+msgstr "添加用户【%s】"
+
+msgid "The old password wrong"
+msgstr "旧密码错误"
+
+msgid "The new password not empty"
+msgstr "新密码不能为空"
+
+msgid "The second new password not empty"
+msgstr "请再次输入新密码"
+
+msgid "The user information successfully modified"
+msgstr "修改用户信息成功"
+
+msgid "Nothing edit user information"
+msgstr "没有修改任何信息，不能提交"
+
+msgid "The two entered passwords do not match, please re-enter"
+msgstr "两次输入的密码不一致，请重新输入"
+
+msgid "Password changed successfully"
+msgstr "密码修改成功"
+
+msgid "Login successfully"
+msgstr "【%s】登录成功"
+
+msgid "E-mail or password is incorrect"
+msgstr "电子邮件或密码错误"
+
+msgid "User deleted successfully"
+msgstr "删除用户"
+
+msgid "Logout successfully"
+msgstr "【%s】退出成功"
+
+msgid "default category"
+msgstr "默认分类"
+
+msgid "default transcode group"
+msgstr "默认转码组"
+
+msgid "admin"
+msgstr "管理员"
+
+msgid "You can't delete yourself"
+msgstr "你无法删除自己"
+
+msgid "Please check and after submit"
+msgstr "请选择之后再提交"
+
+msgid "Please check roles and after submit"
+msgstr "请选择左侧角色之后再提交"
+
+msgid "Add category"
+msgstr "添加分类【%s】成功"
+
+msgid "Add category fail"
+msgstr "添加分类【%s】失败"
+
+msgid "Edit category"
+msgstr "编辑分类【%s】为【%s】"
+
+msgid "Edit category fail"
+msgstr "编辑分类【%s】失败"
+
+msgid "Del category"
+msgstr "删除分类【%s】"
+
+msgid "Category name is exist"
+msgstr "分类名称【%s】已存在"
+
+msgid "Add roles"
+msgstr "添加角色【%s】"
+
+msgid "Edit roles"
+msgstr "编辑角色【%s】"
+
+msgid "Edit roles error"
+msgstr "编辑角色错误"
+
+msgid "Edit roles template distribution"
+msgstr "编辑角色【%s】模板分配成功"
+
+msgid "Edit roles template distribution fail"
+msgstr "编辑角色【%s】模板分配失败"
+
+msgid "Edit roles system permission"
+msgstr "编辑角色【%s】系统权限成功"
+
+msgid "Edit roles system permission fail"
+msgstr "编辑角色【%s】系统权限失败"
+
+msgid "Del roles"
+msgstr "删除角色"
+
+msgid "Role already exists"
+msgstr "【%s】角色已存在"
+
+msgid "Add user to role"
+msgstr "添加用户到【%s】"
+
+msgid "Delete user role"
+msgstr "从【%s】删除用户"
+
+msgid "Add transcodegroup successfully"
+msgstr "添加转码模板【%s】成功"
+
+msgid "Add transcodegroup fail"
+msgstr "添加转码模板【%s】失败"
+
+msgid "Edit transcodegroup successfully"
+msgstr "编辑转码模板【%s】成功"
+
+msgid "Edit transcodegroup fail"
+msgstr "编辑转码模板【%s】失败"
+
+msgid "Del transcodegroup successfully"
+msgstr "删除转码模板【%s】成功"
+
+msgid "Del transcodegroup fail"
+msgstr "删除转码模板【%s】失败"
+
+msgid "Add transcode successfully"
+msgstr "添加转码子模板【%s】成功"
+
+msgid "Add transcode fail"
+msgstr "添加转码子模板【%s】失败"
+
+msgid "Edit transcode successfully"
+msgstr "编辑转码子模板【%s】成功"
+
+msgid "Edit transcode fail"
+msgstr "编辑转码子模板【%s】失败"
+
+msgid "Delete transcode successfully"
+msgstr "删除转码子模板【%s】成功"
+
+msgid "Delete transcode fail"
+msgstr "删除转码子模板【%s】失败"
+
+msgid "authCode is incorrect"
+msgstr "验证码错误"
+
+msgid "Del category fail"
+msgstr "分类删除失败"
+
+msgid "Bad Request Exception"
+msgstr "错误的请求"
+
+msgid "The operation failed"
+msgstr "操作失败"
+
+msgid "Successfully removed the video to the Recycle"
+msgstr "删除视频到回收站成功"
+
+msgid "Successfully reduction the video to the category"
+msgstr "还原视频成功"
+
+msgid "Reduction"
+msgstr "还原"
+
+msgid "Are you reduction the video"
+msgstr "确定要还原吗?"
+
+msgid "Successfully del the video"
+msgstr "彻底删除成功"
+
+msgid "Complete delete"
+msgstr "彻底删除"
+
+msgid "Are you complete delete"
+msgstr "确定要彻底删除吗?"
+
+msgid "Delete transcode template will also delete the sub-template, and want to continue?"
+msgstr "删除转码模板会同时删除子模板，是否继续？"
+
+msgid "File does not exist"
+msgstr "文件不存在"
+
+msgid "The template name can not be empty"
+msgstr "模板名称不能为空"
+
+msgid "Upload successful"
+msgstr "上传成功"
+
+msgid "sign"
+msgstr "标志"
+
+msgid "title"
+msgstr "标题"
+
+msgid "logout"
+msgstr "注销"
+
+msgid "help"
+msgstr "帮助"
+
+msgid "Show download list"
+msgstr "显示上传列表"
+
+msgid "Clean list"
+msgstr "清空"
+
+msgid "Close list"
+msgstr "关闭"
+
+msgid "Again upload"
+msgstr "重新上传"
+
+msgid "Video manage"
+msgstr "任务管理"
+
+msgid "Video category"
+msgstr "任务分类"
+
+msgid "recycle"
+msgstr "回收站"
+
+msgid "Templates manage"
+msgstr "模板管理"
+
+msgid "Templates category"
+msgstr "模板分类"
+
+msgid "Add TranscodeCategory"
+msgstr "添加模版分类【%s】成功"
+
+msgid "Add TranscodeCategory fail"
+msgstr "添加模版分类【%s】失败"
+
+msgid "TranscodeCategory name is exist"
+msgstr "该模版分类【%s】名已存在"
+
+msgid "Edit TranscodeCategory"
+msgstr "编辑模版分类【%s】成功"
+
+msgid "Users manage"
+msgstr "用户管理"
+
+msgid "Roles manage"
+msgstr "角色管理"
+
+msgid "Roles permissions"
+msgstr "角色权限"
+
+msgid "System logs"
+msgstr "系统日志"
+
+msgid "My homepage"
+msgstr "我的主页"
+
+msgid "Current location"
+msgstr "当前位置"
+
+msgid "Unified service platform"
+msgstr "统一服务平台"
+
+msgid "Project name"
+msgstr "xBuilder"
+
+msgid "Video"
+msgstr "视频"
+
+msgid "Video name"
+msgstr "视频名称"
+
+msgid "Upload user"
+msgstr "上传用户"
+
+msgid "Main page title"
+msgstr "xBuilder - 单机转码管理系统"
+
+msgid "Upload"
+msgstr "上传"
+
+msgid "web Upload"
+msgstr "网页上传"
+
+msgid "client Upload"
+msgstr "客户端上传"
+
+msgid "disk Find"
+msgstr "存储选择"
+
+msgid "Upload file"
+msgstr "上传文件"
+
+msgid "Download"
+msgstr "下载"
+
+msgid "Upload video"
+msgstr "上传素材"
+
+msgid "Upload video success"
+msgstr "上传素材【%s】"
+
+msgid "Add video"
+msgstr "添加视频"
+
+msgid "Upload successfully"
+msgstr "上传成功"
+
+msgid "Again transcoding"
+msgstr "重新转码"
+
+msgid "refresh"
+msgstr "刷新"
+
+msgid "category move"
+msgstr "分类迁移/复制"
+
+msgid "category move type"
+msgstr "分类迁移方式"
+
+msgid "category select"
+msgstr "分类选择"
+
+msgid "with category"
+msgstr "所属分类"
+
+msgid "Upload time"
+msgstr "上传时间"
+
+msgid "Length"
+msgstr "时长"
+
+msgid "Transcoding template"
+msgstr "转码模板"
+
+msgid "Templates name"
+msgstr "模板名称"
+
+msgid "Status"
+msgstr "状态"
+
+msgid "Is transcoding"
+msgstr "正在转码"
+
+msgid "Have been completed"
+msgstr "已完成"
+
+msgid "Have Loading"
+msgstr "正在上传"
+
+msgid "taskStatus_1"
+msgstr "等待执行"
+
+msgid "taskStatus_2"
+msgstr "正在转码"
+
+msgid "taskStatus_3"
+msgstr "转码完成"
+
+msgid "taskStatus_4"
+msgstr "转码失败"
+
+msgid "All"
+msgstr "共"
+
+msgid "Item record"
+msgstr "条记录"
+
+msgid "Per Page"
+msgstr "每页"
+
+msgid "Item"
+msgstr "条"
+
+msgid "Task detail"
+msgstr "任务详情"
+
+msgid "Video browse"
+msgstr "视频预览"
+
+msgid "Audio browse"
+msgstr "音频预览"
+
+msgid "Type of operation"
+msgstr "操作类型"
+
+msgid "Operating"
+msgstr "操作"
+
+msgid "All operations"
+msgstr "所有操作"
+
+msgid "Login"
+msgstr "登录"
+
+msgid "Logout"
+msgstr "登出"
+
+msgid "Start data"
+msgstr "开始时间"
+
+msgid "End data"
+msgstr "结束时间"
+
+msgid "User name"
+msgstr "用户名"
+
+msgid "Keyword"
+msgstr "关键字"
+
+msgid "inquire"
+msgstr "查询"
+
+msgid "History"
+msgstr "历史记录"
+
+msgid "Logs type"
+msgstr "日志类型"
+
+msgid "Sponsor"
+msgstr "发起人"
+
+msgid "Operating time"
+msgstr "操作时间"
+
+msgid "Add"
+msgstr "添加"
+
+msgid "Nothing data"
+msgstr "没有相关数据！"
+
+msgid "Templates select"
+msgstr "模板选择"
+
+msgid "Please select transcoding templates"
+msgstr "请选择转码模板"
+
+msgid "submit"
+msgstr "提交"
+
+msgid "cancel"
+msgstr "取消"
+
+msgid "File name"
+msgstr "文件名称"
+
+msgid "No changes"
+msgstr "未做任何修改"
+
+msgid "Please select category and then save"
+msgstr "请选择分类之后再保存!"
+
+msgid "Edit category permissions successflly"
+msgstr "分类权限修改成功"
+
+msgid "Edit category permissions unsuccessflly"
+msgstr "分类权限修改失败"
+
+msgid "Please choose default template"
+msgstr "请选择默认模板"
+
+msgid "Founder can\'t delete role"
+msgstr "创始人不可删除角色"
+
+msgid "Can't delete youself out role"
+msgstr "不能删除自已出角色"
+
+msgid "Your account have not user role, can not login"
+msgstr "你的账号没有用户角色，不能登录"
+
+msgid "Your account has been disabled, can not login"
+msgstr "你的账号已停用，不能登录"
+
+msgid "Your account has expired, can not login"
+msgstr "你的账号已过期，不能登录"
+
+msgid "No subtemplates"
+msgstr "没有子模板"
+
+msgid "Account information error"
+msgstr "账号信息错误"
+
+msgid "Not have access"
+msgstr "没有访问权限!"
+
+msgid "Can not delete initial Sub-template, select other Sub-template and then delete!"
+msgstr "不能删除初始子模板，选中其他子模板再删除!"
+
+msgid "Illegal operation"
+msgstr "非法操作"
+
+msgid "Have content can not delete"
+msgstr "目录下有素材不能删除！"
+
+msgid "mediatrans"
+msgstr "媒体转码"
+
+msgid "NM_CPUpLoadNewTask"
+msgstr "媒体中转"
+
+msgid "nmfastsplit"
+msgstr "快速分片"
+
+msgid "nmfastrender"
+msgstr "快速生成"
+
+msgid "ExecuteStatus_1"
+msgstr "等待"
+
+msgid "ExecuteStatus_2"
+msgstr "执行中"
+
+msgid "ExecuteStatus_8"
+msgstr "执行中"
+
+msgid "ExecuteStatus_10"
+msgstr "完成"
+
+msgid "ExecuteStatus_16"
+msgstr "完成"
+
+msgid "ExecuteStatus_32"
+msgstr "重试超额"
+
+msgid "ExecuteStatus_256"
+msgstr "挂起"
+
+msgid "ExecuteStatus_264"
+msgstr "暂停"
+
+msgid "ConfigType_1"
+msgstr "基本参数"
+
+msgid "ConfigType_2"
+msgstr "接口参数"
+
+msgid "ConfigType_3"
+msgstr "路径参数"
+
+msgid "ConfigType_4"
+msgstr "隐藏参数"
+
+msgid "User already exists"
+msgstr "该用户已存在"
+
+msgid "Create AutoScan"
+msgstr "添加扫描"
+
+msgid "Edit AutoScan"
+msgstr "编辑扫描"
+
+msgid "Delete AutoScan"
+msgstr "删除扫描"
+
+msgid "AutoScan deleted successfully"
+msgstr "删除扫描成功"
+
+msgid "Create Metadata"
+msgstr "添加配置"
+
+msgid "Edit Metadata"
+msgstr "编辑配置"
+
+msgid "Delete Metadata"
+msgstr "删除配置"
+
+msgid "Metadata deleted successfully"
+msgstr "删除元数据配置成功"
+
+msgid "AutoScan Path"
+msgstr "扫描路径"
+
+msgid "Select TranscodeGroup"
+msgstr "选择模板"
+
+msgid "Suffix"
+msgstr "文件后缀"
+
+msgid "Preview"
+msgstr "预览"

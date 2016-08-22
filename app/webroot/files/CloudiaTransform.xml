@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CloudiaTransform>
+	<ContentID>test005</ContentID>
+	<ContentName>云转码测试test005</ContentName>
+	<SystemName>cmpc</SystemName>
+	<CPID>100001</CPID>
+	<UserName>admin</UserName>
+	<Priority>0</Priority>
+	<SrcMediaInfo>
+		<PathName>C:\input.xml</PathName>
+	</SrcMediaInfo>
+	<ObjMediaInfo>
+		<PathFormatPrefix>D:\2.xml</PathFormatPrefix>
+		<CodecParams>
+			<CodecParam>
+				<WatermarkFlag>1</WatermarkFlag>
+				<StartX>10</StartX>
+				<StartY>20</StartY>
+				<ObjWidth>60</ObjWidth>
+				<ObjHeight>40</ObjHeight>
+				<PicPath>C:\3.xml</PicPath>
+				<VideoFormat>1</VideoFormat>
+				<BitRate>2</BitRate>
+				<FrameRate>3</FrameRate>
+				<ImageWidth>4</ImageWidth>
+				<ImageHeight>5</ImageHeight>
+				<AudioFormat>6</AudioFormat>
+				<KeyFrameRate>7</KeyFrameRate>
+				<ReplaceByMainFormat>8</ReplaceByMainFormat>
+				<FileFormat>9</FileFormat>
+				<SpecialParam><![CDATA[<SpecialParam><VideoParam><sar_width>1</sar_width><sar_height>1</sar_height><speed>6</speed><delay_frames>60</delay_frames><profile>0</profile><level>30</level><definterlace>1</definterlace><interlace>0</interlace><ref_frames>0</ref_frames><bframes>-1</bframes><vbv_buffer>40</vbv_buffer><b_aud>0</b_aud><slice_frames>-1</slice_frames><decode_threads>8</decode_threads><sps_id>-1</sps_id><OptimizeMode>0</OptimizeMode></VideoParam><AudioParam><Bitrate>128000</Bitrate><encoderversion>0</encoderversion><profile>2</profile><bitstreamoutputformat>1</bitstreamoutputformat></AudioParam><FileParam><HintTrackValue>0</HintTrackValue><CreateStreamIndex>0</CreateStreamIndex></FileParam></SpecialParam>
+]]></SpecialParam>
+			</CodecParam>
+			<CodecParam>
+				<WatermarkFlag>0</WatermarkFlag>
+				<StartX>10</StartX>
+				<StartY>20</StartY>
+				<ObjWidth>60</ObjWidth>
+				<ObjHeight>40</ObjHeight>
+				<PicPath>C:\3.xml</PicPath>
+				<VideoFormat>11</VideoFormat>
+				<BitRate>22</BitRate>
+				<FrameRate>33</FrameRate>
+				<ImageWidth>44</ImageWidth>
+				<ImageHeight>55</ImageHeight>
+				<AudioFormat>66</AudioFormat>
+				<KeyFrameRate>77</KeyFrameRate>
+				<ReplaceByMainFormat>88</ReplaceByMainFormat>
+				<FileFormat>99</FileFormat>
+				<SpecialParam><![CDATA[<SpecialParam><VideoParam><sar_width>1</sar_width><sar_height>1</sar_height><speed>6</speed><delay_frames>60</delay_frames><profile>0</profile><level>30</level><definterlace>1</definterlace><interlace>0</interlace><ref_frames>0</ref_frames><bframes>-1</bframes><vbv_buffer>40</vbv_buffer><b_aud>0</b_aud><slice_frames>-1</slice_frames><decode_threads>8</decode_threads><sps_id>-1</sps_id><OptimizeMode>0</OptimizeMode></VideoParam><AudioParam><Bitrate>128000</Bitrate><encoderversion>0</encoderversion><profile>2</profile><bitstreamoutputformat>1</bitstreamoutputformat></AudioParam><FileParam><HintTrackValue>0</HintTrackValue><CreateStreamIndex>0</CreateStreamIndex></FileParam></SpecialParam>
+]]></SpecialParam>
+			</CodecParam>
+		</CodecParams>
+	</ObjMediaInfo>
+	<KeyFrameFlag>0</KeyFrameFlag>
+	<ObjPicInfo>
+		<PathFormatPrefix>E:\\</PathFormatPrefix>
+		<ImageWidth>22</ImageWidth>
+		<ImageHeight>33</ImageHeight>
+		<ImageType>44</ImageType>
+		<Position>55,100,300,400</Position>
+	</ObjPicInfo>
+	<FeedBackInfo>
+		<ServiceMethod>input</ServiceMethod>
+		<ServiceAddress>http://127.0.0.1/</ServiceAddress>
+	</FeedBackInfo>
+</CloudiaTransform>
+
