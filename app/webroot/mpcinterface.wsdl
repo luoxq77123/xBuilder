@@ -33,7 +33,7 @@
   </WSDL:binding>
   <WSDL:service name="mpcinterface">
     <WSDL:port name="mpcinterface" binding="tns:mpcinterface">
-      <SOAP:address location="http://192.168.209.3:8088" />
+      <SOAP:address location="http://172.16.146.16:8090" />
     </WSDL:port>
   </WSDL:service>
 </WSDL:definitions>

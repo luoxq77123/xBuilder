@@ -34,6 +34,7 @@ class TasksController extends AppController
 	public function index($id = null)
 	{
 		$conditions = array();
+
 		if ($id) {
 			//获取权限
 			$this->loadModel('Permission');
@@ -51,7 +52,6 @@ class TasksController extends AppController
 
 		$this->loadModel('Content');
 		$data = $this->paginate('Content');
-
 		$this->set(compact('data', 'id'));
 	}
 

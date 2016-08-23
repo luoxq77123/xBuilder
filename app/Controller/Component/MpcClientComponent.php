@@ -55,10 +55,10 @@ class MpcClientComponent extends Component {
  * @var array
  */
     private $MpcSpecialParamKey = array(
-            'video' => 'VideoParam',
-            'audio' => 'AudioParam',
-            'file' => 'FileParam'
-        );
+        'video' => 'VideoParam',
+        'audio' => 'AudioParam',
+        'file' => 'FileParam'
+    );
 
 /**
  * Constructor 构造函数
@@ -66,29 +66,32 @@ class MpcClientComponent extends Component {
  * @param ComponentCollection $collection A ComponentCollection this component can use to lazy load its components
  * @param array $settings Array of configuration settings.
  */
-    public function __construct(ComponentCollection $collection, $settings = array()) {
-        $this->wsdl = @$settings['wsdl']?:FULL_BASE_URL . "/mpcinterface.wsdl";
+    public function __construct(ComponentCollection $collection, $settings = array())
+    {
+        $this->wsdl = @$settings['wsdl'] ? : FULL_BASE_URL . "/mpcinterface.wsdl";
         try {
             $this->soapClient = new SoapClient($this->wsdl, array(
-                                    "connection_timeout"=>30,
-                                    "encoding"=>"utf-8"
-                                ));
-            if(!@$settings['wsdl']){
+                "connection_timeout" => 30,
+                "encoding" => "utf-8"
+            ));
+            if (!@$settings['wsdl']) {
                 $this->soapClient->__setLocation($settings['mpcUrl']);
             }
-        } catch (Exception $e) {
-            $this->setError("SOAP Error: ".$e->getMessage()." (".$this->wsdl.")");
+        }
+        catch (Exception $e) {
+            $this->setError("SOAP Error: " . $e->getMessage() . " (" . $this->wsdl . ")");
             return false;
         }
-        
+
         parent::__construct($collection, $settings);
     }
 
-/**
+    /**
  * 析构函数
  * 释放soap客户端对象
  */
-    public function __destruct() {
+    public function __destruct()
+    {
         $this->soapClient = null;
     }
 
@@ -96,60 +99,66 @@ class MpcClientComponent extends Component {
  * 查询任务详情
  * @param string  $ProjectID 任务ID
  */
-    public function GetProjectList($projectID = null){
+    public function GetProjectList($projectID = null)
+    {
         return $this->docommit(__FUNCTION__, array(
-                                                "ProjectID"=>$projectID
-                                            )); 
+            "ProjectID" => $projectID
+        ));
     }
 
-/**
+    /**
  * 查询工位详情
  * @param int $JobID 工位ID
  */
-    public function GetJobList($JobID = null){
+    public function GetJobList($JobID = null)
+    {
         return $this->docommit(__FUNCTION__, array(
-                                            "JobID"=>$JobID
-                                        ));
+            "JobID" => $JobID
+        ));
     }
 
 /**
  * 删除任务
  * @param string $ProjectID 任务ID
  */
-    public function DeleteProject($ProjectID = null){
+    public function DeleteProject($ProjectID = null)
+    {
         return $this->docommit(__FUNCTION__, array(
-                                    "TaskGUID"=>$ProjectID
-                                ));
+            "TaskGUID" => $ProjectID
+        ));
     }
 
 /**
  * 暂停指定工位
  * @param int $JobID 工位ID
  */
-    public function PauseJob($JobID = null){
+    public function PauseJob($JobID = null)
+    {
         return $this->docommit(__FUNCTION__, array(
-                                    "JobID"=>$JobID
-                                ));
+            "JobID" => $JobID
+        ));
     }
 
 /**
  * 恢复指定工位
  * @param int $JobID 工位ID
  */
-    public function ResumeJob($JobID = null){
+    public function ResumeJob($JobID = null)
+    {
         return $this->docommit(__FUNCTION__, array(
-                                    "JobID"=>$JobID
-                                ));
+            "JobID" => $JobID
+        ));
     }
 
 /**
  * 取消指定工位
  * @param int $JobID 工位ID
  */
-    public function CancelJob($JobID = null){
+    public function CancelJob($JobID = null)
+    {
         return $this->docommit(__FUNCTION__, array(
-                                    "JobID"=>$JobID
-                                ));
+            "JobID" => $JobID
+        ));
     }
 
 /**
@@ -157,21 +166,23 @@ class MpcClientComponent extends Component {
  * @param string $ProjectID 任务ID
  * @param int    $Priority  优先级值
  */
-    public function SetProjectPriority($ProjectID, $Priority){
+    public function SetProjectPriority($ProjectID, $Priority)
+    {
         return $this->docommit(__FUNCTION__, array(
-                                            "TaskGUID"=>$ProjectID,
-                                            "Priority"=>$Priority
-                                        ));
+            "TaskGUID" => $ProjectID,
+            "Priority" => $Priority
+        ));
     }
 
 /**
  * 重置工位
  * @param string $JobID 步骤ID
  */
-    public function ResetJob($JobID){
+    public function ResetJob($JobID)
+    {
         return $this->docommit(__FUNCTION__, array(
-                                            "JobID"=>$JobID
-                                        ));
+            "JobID" => $JobID
+        ));
     }
 
 /**
@@ -404,7 +415,8 @@ class MpcClientComponent extends Component {
         return array('taskGUID'=>$taskGUID,'result'=>$this->docommit(__FUNCTION__, array(), $result));
     }
 
-    public function GetSvcList(){
+    public function GetSvcList()
+    {
         return $this->docommit(__FUNCTION__);
     }
 

@@ -93,7 +93,6 @@ class UploadsController extends AppController
 	 */
 	public function ftp_upload()
 	{
-        var_dump($this->request->data);exit;
 		$delimiter = 'codeDelimiter';
 		foreach ($this->request->data['arr'] as $value) {
 			$value['backSendData']['medaData'] = str_replace($delimiter, '"', $value['backSendData']['medaData']);

@@ -82,7 +82,6 @@ class Job extends AppModel {
  */
 	public function complete($TaskGUID){
 		if(!$TaskGUID) return false;
-
 		$taskInfo = Cache::read($TaskGUID, '_cake_task_');
 
 		$stepInfo = isset($taskInfo[0]['MPC_Spore'][0]['JobID'])?$taskInfo[0]['MPC_Spore']:array($taskInfo[0]['MPC_Spore']);
