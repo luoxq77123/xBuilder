@@ -34,7 +34,6 @@ class TasksController extends AppController
 	public function index($id = null)
 	{
 		$conditions = array();
-
 		if ($id) {
 			//获取权限
 			$this->loadModel('Permission');
@@ -62,9 +61,7 @@ class TasksController extends AppController
 	private function get_select_conditions()
 	{
 		$conditions = array();
-
 		isset($this->request->data['keyword']) && isset($this->request->data['searchType']) && $this->request->data['searchType'] && $conditions['Content.' . $this->request->data['searchType'] . ' LIKE'] = '%' . $this->request->data['keyword'] . '%';
-
 		return $conditions;
 	}
 
@@ -74,10 +71,8 @@ class TasksController extends AppController
 	public function detail($id = null, $cid = null)
 	{
 		if (!$id && !$cid) return $this->jsonToDWZ(array('message' => '非法操作'), 300);
-
 		$this->loadModel('Content');
 		$content = $this->Content->find('first', array('conditions' => array('Content.id' => $id)));
-
 		$this->loadModel('FormateCode');
 		$file = $this->FormateCode->file;
 		$video = $this->FormateCode->video;
@@ -113,10 +108,9 @@ class TasksController extends AppController
 					$taskInfo = Cache::read($TaskGUID, '_cake_task_');
 				}
 			}
-            $this->log($taskInfo);
 			//缓存没有，从数据库读取
 			if (@!$taskInfo) {
-				$this->loadModel('Content');
+                $this->loadModel('Content');
 				$content = $this->Content->find('first', array('conditions' => array('Content.task_id' => $TaskGUID)));
 				if ($content) {
 					$taskInfo[0]['MPC_Spore'] = array(
@@ -139,8 +133,27 @@ class TasksController extends AppController
 					);
 				}
 			} else {
-				$taskInfo[0]['MPC_Spore'] = $taskInfo;
-			}
+                //如果存在则MPC中心还没有处理完，否则表示MPC中心已处理完毕，需要手动更新入ML库状态
+                if (isset($jobList[$TaskGUID])) {
+                    $taskInfo[0]['MPC_Spore'] = $taskInfo;
+                } else {
+                    $newTaskInfo = array();
+                    $arr = array();
+                    foreach ($taskInfo as $val) {
+                        if ($val['JobType'] === 'mediatrans') {
+                            $arr[] = $val['ExecuteStatus'];
+                        }
+                    }
+                    if (count($arr) == 2 && ($arr[0] == 16 && $arr[1] == 16)) {
+                        foreach ($taskInfo as $val) {
+                            $val['ExecuteStatus'] = $val['JobType'] === 'NM_ClipToML' ? 16 : $val['ExecuteStatus'];
+                            $val['ExecuteGuage'] = $val['JobType'] === 'NM_ClipToML' ? 100 : $val['ExecuteGuage'];
+                            $newTaskInfo[] = $val;
+                        }
+                    }
+                    $taskInfo[0]['MPC_Spore'] = $newTaskInfo ? $newTaskInfo : $taskInfo;
+                }
+            }
 		} else {
 			//数据库没有，文件上传未完成
 			$taskInfo[0]['MPC_Spore'] = array(
@@ -176,7 +189,7 @@ class TasksController extends AppController
 			$jobList[$task['TaskGUID']] = $task['MPC_Job']['JobID'] ? array($task['MPC_Job']) : $task['MPC_Job'];
 		}
 
-		return true;//$this->log($jobList,'getTaskSteps');
+		return true;
 	}
 
 	/**
@@ -203,7 +216,6 @@ class TasksController extends AppController
 				$this->Content->updateAll(array('Content.priority' => $priority), array('Content.id' => $task['Content']['id']));
 			}
 		}
-
 		return $this->jsonToDWZ(array('message' => '操作成功', 'navTabId' => 'main'));
 	}
 
@@ -215,14 +227,10 @@ class TasksController extends AppController
 	{
 		if ($this->request->data) {
 			if (!$this->request->data['replayIds']) return $this->jsonToDWZ(array('message' => '非法操作'), 300);
-
 			$this->request->data['replayIds'] = explode(',', $this->request->data['replayIds']);
-
 			$this->loadModel('Content');
 			$tasks = $this->Content->find('all', array('conditions' => array('Content.id' => $this->request->data['replayIds'], 'Content.status >' => 2)));
-
 			if (count($this->request->data['replayIds']) != count($tasks)) return $this->jsonToDWZ(array('message' => '等待和正在转码的任务，不能发起重新转码！'), 300);
-
 			App::import('Controller', 'Materials');
 			$this->MaterialsController = new MaterialsController();
 
@@ -296,7 +304,6 @@ class TasksController extends AppController
 				'navTabId' => 'main'
 			), 200, true);
 		}
-
 		return $this->jsonToDWZ(array('message' => __('The operation failed')), 300);
 	}
 
@@ -317,16 +324,11 @@ class TasksController extends AppController
 	 */
 	public function disk_find($cid = null)
 	{
-
 		$categories = $this->Category->find('list', array('conditions' => array('parent_id' => 0)));
-
 		$this->loadModel('TranscodeCategory');
 		$transcodeCategories = $this->TranscodeCategory->find('list', array('conditions' => array('parent_id' => 0)));
-
 		array_unshift($transcodeCategories, '默认分类');
-
 		$transcodeGroups = $this->TranscodeGroup->getTranscodeParams($this->userInfo);
-
 		$this->loadModel('Metadata');
 		$metaData = $this->Metadata->find('all', array('order' => 'Metadata.order asc,Metadata.id desc', 'contain' => ''));
 		$isAutoFill = array();
@@ -337,7 +339,6 @@ class TasksController extends AppController
 		}
 		$isAutoFill = json_encode($isAutoFill);
 		$this->set(compact('isAutoFill', 'metaData'));
-
 		$formatCode = Cache::read('formatCode', '_cake_core_');
 		$this->set(compact('categories', 'transcodeCategories', 'transcodeGroups', 'formatCode'));
 	}
@@ -371,7 +372,6 @@ class TasksController extends AppController
 		}
 		$isAutoFill = json_encode($isAutoFill);
 		$this->set(compact('isAutoFill', 'metaData'));
-
 		$formatCode = Cache::read('formatCode', '_cake_core_');
 		$this->set(compact('transcodeGroups', 'cid', 'formatCode'));
 	}
@@ -384,14 +384,12 @@ class TasksController extends AppController
 		//获取权限
 		$this->loadModel('Permission');
 		$getPermissions = $this->Permission->getRolesCategoryPermissions($cid, $this->userInfo['Role']['id']);
-
-		if (!in_array(2, explode(',', $getPermissions['Permission']['permissions'])) && !empty($cid))
+		if (!in_array(2, explode(',', $getPermissions['Permission']['permissions'])) && !empty($cid)){
             return $this->jsonToDWZ(array('message' => __('Not have access'), 'callbackType' => 'closeCurrent'), 300);
+        }
 
 		$this->transcodeGroup();
-
 		$transcodeGroups = $this->TranscodeGroup->getTranscodeParams($this->userInfo);
-
 		$this->loadModel('Metadata');
 		$metaData = $this->Metadata->find('all', array('order' => 'Metadata.order asc,Metadata.id desc', 'contain' => ''));
 		$isAutoFill = array();
@@ -404,7 +402,6 @@ class TasksController extends AppController
 		$this->set(compact('isAutoFill', 'metaData'));
 		$formatCode = Cache::read('formatCode', '_cake_core_');
 		$this->set(compact('transcodeGroups', 'cid', 'formatCode'));
-
 
 	}
 
@@ -426,7 +423,6 @@ class TasksController extends AppController
 			}
 			$this->loadModel('FormateCode');
 			$videoFormat = $this->FormateCode->video;
-
 			$this->set(compact('transcodeGroupName', 'allTranscode', 'videoFormat'));
 		} else {
 			//获取用户权限
@@ -453,7 +449,6 @@ class TasksController extends AppController
 			}
 			@$options = array_combine($arrID, $arrName);
 			@$transcodeGroupName = str_replace('音频 | ', '', str_replace('视频 | ', '', $options[$defaultTemplatesId]));
-
 			$this->set(compact('options', 'transcodeGroupName', 'allTranscode', 'defaultTemplatesId'));
 		}
 	}
@@ -463,6 +458,21 @@ class TasksController extends AppController
 		$guid = strtoupper(String::uuid());
 		return $this->jsonToDWZ(array('guid' => $guid));
 	}
+
+    public function uploadLog()
+    {
+        $this->autoRender=false;
+        $arr['fguid'] = $this->request->query['fguid'];
+        $arr['fileName'] = $this->request->query['fileName'];
+        $arr['ftype'] = $this->request->query['ftype'];
+        $arr['fsize'] = $this->request->query['fsize'];
+        $fileName = LOGS.date("Ymd")."logs.txt";
+        $content = "[".date("Y-m-d H:i:s")."]".json_encode($arr);
+        $handle = fopen($fileName,"a");
+        fwrite($handle,$content."\r\n");
+        fclose($handle);
+        return true;
+    }
 
 	public function ftp_upload_transcode_execute($guid)
 	{
@@ -476,8 +486,10 @@ class TasksController extends AppController
 
 		$video = $this->Video->find('first', array('conditions' => array('Video.originalFile' => 1, 'Video.content_id' => $task['Content']['id'])));
 		$this->log('ftp callback guid:'.$guid);
+        //发起转码请求
 		$return = $this->MaterialsController->transcode($task['Content']['id'], $this->userInfo['User']['id'], $task['Content']['transcode_group_id'], array('duration' => $video['Video']['duration'], 'is_split' => $task['Content']['is_split'], 'platFormID' => $task['Content']['platform_id'] ? explode(',', $task['Content']['platform_id']) : null, 'metaData' => $task['Content']['meta_data']));
-		$this->Content->updateAll(array(
+
+        $this->Content->updateAll(array(
 			'Content.status' => 1,
 			'Content.task_id' => '"' . $return['taskGUID'] . '"'
 		), array(

@@ -75,8 +75,7 @@
 	<div class="cmpc_ri_top_tit"><?php echo __('Task detail');?></div>
 	<div class="xxinfo" layoutH="52">
 		<div class="xxinfo_tit"></div>
-		<div layoutH="290">
-		</div>
+		<div layoutH="290"></div>
 	</div>
 </div>
 <script type="text/javascript">

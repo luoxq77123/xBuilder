@@ -29,10 +29,10 @@ class MaterialsController extends AppController{
 	
 	private $ftpMessage = NULL;
 
-/**
- * 移动任务所在分类
- * @return void
- */
+    /**
+     * 移动任务所在分类
+     * @return void
+     */
 	public function category_move()
 	{
 		if($this->request->data)
@@ -56,9 +56,9 @@ class MaterialsController extends AppController{
 		}
 	}
 	
-/**
- * 视频管理处点击上传渲染视频上传弹出层
- */
+    /**
+     * 视频管理处点击上传渲染视频上传弹出层
+     */
 	public function upload($cid = null){
 		//获取权限
 		$this->loadModel('Permission');
@@ -73,14 +73,13 @@ class MaterialsController extends AppController{
 		$formatCode = Cache::read('formatCode', '_cake_core_');
 		$this->set(compact('transcodeGroups','cid','formatCode'));
 
-		
 	}
 
-/**
- * 磁盘查找
- * @param  int $cid 分类ID
- * @return void
- */
+    /**
+     * 磁盘查找
+     * @param  int $cid 分类ID
+     * @return void
+     */
 	public function disk_find($cid = null){
 
 		$categories = $this->Category->find('list',array('conditions'=>array('parent_id'=>0)));
@@ -96,12 +95,12 @@ class MaterialsController extends AppController{
 		$this->set(compact('categories','transcodeCategories','transcodeGroups','formatCode'));
 	}
 
-/**
- * 查询指定存储目录
- * @param  string $callback 回调函数
- * @param  string id 操作的页面元素ID
- * @return void
- */
+    /**
+     * 查询指定存储目录
+     * @param  string $callback 回调函数
+     * @param  string id 操作的页面元素ID
+     * @return void
+     */
 	public function storage($callback = null, $id = null){
 		$dir = new Folder(STORAGE_IP_ADDRESS . STORAGE_SELECT_PATH);
 		$result = $dir->read();
@@ -121,10 +120,10 @@ class MaterialsController extends AppController{
 		$this->set(compact('folders','files','callback','id'));
 	}
 
-/**
- * 扫描指定目录
- * @return void
- */
+    /**
+     * 扫描指定目录
+     * @return void
+     */
 	public function scan_storage(){
 		$path = urldecode($this->request->query['path'])?:STORAGE_IP_ADDRESS . STORAGE_SELECT_PATH;
 
@@ -155,11 +154,11 @@ class MaterialsController extends AppController{
 		$this->set(compact('path','upPath','now_path','folders','files'));
 	}
 
-/**
- * 检测并转换中文字符集
- * @param  string $data 需要转换的中文字符
- * @return string       转换为UTF-8的字符
- */
+    /**
+     * 检测并转换中文字符集
+     * @param  string $data 需要转换的中文字符
+     * @return string       转换为UTF-8的字符
+     */
 	private function characet($data){
 	  if( !empty($data) ){
 	    $fileType = mb_detect_encoding($data , array('UTF-8','GBK','LATIN1','BIG5')) ;
@@ -218,17 +217,16 @@ class MaterialsController extends AppController{
 				$settings['metaData'][$mkey] = $meta['value'];
 			}
 		}
-
 		$this->MpcClient = $this->Components->load('MpcClient',array('mpcUrl' => MPC_WEB_SERVICE));
 		return $this->MpcClient->AddTask($files, $settings);
 	}
 	
 	
-/**
- * 获取编码组内容
- * 
- * @param int $id
- */
+    /**
+     * 获取编码组内容
+     *
+     * @param int $id
+     */
 	public function transcodeGroup($id = null){
 		//点击下拉框时加载
 		if($id)
@@ -307,10 +305,10 @@ class MaterialsController extends AppController{
 		
 	}
 
-/**
- * 分析选择文件，返回分析结果
- * @return void
- */
+    /**
+     * 分析选择文件，返回分析结果
+     * @return void
+     */
 	public function choose($type = null){
 		if(!$this->request->query['file_path']) return false;
 
@@ -330,7 +328,7 @@ class MaterialsController extends AppController{
 		}
 
 		$fileInfo = Xml::toArray(Xml::build($result->body));
-$this->log($fileInfo,'xml');
+        $this->log($fileInfo,'xml');
 		$filename = preg_replace('/^.+[\\\\\\/]/', '', urldecode($this->request->query["file_path"]));
 		Cache::write(base64_encode($filename), $fileInfo['FileInfo'],'_cake_file_');
 		
@@ -399,9 +397,9 @@ $this->log($fileInfo,'xml');
 		$this->set(compact('list','filename','isdvd'));
 	}
 
-/**
- * 添加待转码文件
- */
+    /**
+     * 添加待转码文件
+     */
 	public function add_transcode_unit(){
 		$filename = $this->request->query['filename'];
 		$isdvd = $this->request->query['isdvd'];
@@ -434,10 +432,10 @@ $this->log($fileInfo,'xml');
 		$this->set(compact('pgm','video','audio','cg','filename','id','isdvd','channel'));
 	}
 
-/**
- * 生成转码目标XML
- * @return void
- */
+    /**
+     * 生成转码目标XML
+     * @return void
+     */
 	public function make_transcode_xml(){
 		$this->autoRender = false;
 		if(!@$this->request->data['ids']){

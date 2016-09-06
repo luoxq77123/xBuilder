@@ -28,44 +28,43 @@ App::uses('Debugger', 'Utility');
 
 class MpcClientComponent extends Component {
 
-/**
- * $wsdl
- * @var mixed
- */
+    /**
+     * $wsdl
+     * @var mixed
+     */
     private $wsdl = null;
 
-/**
- * soap 客户端实例化对象
- * @var object
- */
+    /**
+     * soap 客户端实例化对象
+     * @var object
+     */
     private $soapClient = null;
 
-/**
- * 特殊参数全键值
- * @var array
- */
+    /**
+     * 特殊参数全键值
+     * @var array
+     */
     private $specialParamKey = array(
         'video' => array('sar_width','sar_height','dest_width','dest_height','speed','delay_frames','profile','level','definterlace','interlace','ref_frames','bframes','vbv_buffer','b_aud','vpp_definterlace','slice_frames','decode_threads','sps_id','OptimizeMode'),
         'audio' => array('Bitrate','encoderversion','profile','bitstreamoutputformat'),
         'file' => array('HintTrackValue','CreateStreamIndex')
     );
 
-/**
- * 与MPC特殊参数节点对应关系
- * @var array
- */
+    /**
+     * 与MPC特殊参数节点对应关系
+     * @var array
+     */
     private $MpcSpecialParamKey = array(
         'video' => 'VideoParam',
         'audio' => 'AudioParam',
         'file' => 'FileParam'
     );
 
-/**
- * Constructor 构造函数
- *
- * @param ComponentCollection $collection A ComponentCollection this component can use to lazy load its components
- * @param array $settings Array of configuration settings.
- */
+    /**
+     * Constructor 构造函数
+     * @param ComponentCollection $collection A ComponentCollection this component can use to lazy load its components
+     * @param array $settings Array of configuration settings.
+     */
     public function __construct(ComponentCollection $collection, $settings = array())
     {
         $this->wsdl = @$settings['wsdl'] ? : FULL_BASE_URL . "/mpcinterface.wsdl";
@@ -87,18 +86,18 @@ class MpcClientComponent extends Component {
     }
 
     /**
- * 析构函数
- * 释放soap客户端对象
- */
+     * 析构函数
+     * 释放soap客户端对象
+     */
     public function __destruct()
     {
         $this->soapClient = null;
     }
 
-/**
- * 查询任务详情
- * @param string  $ProjectID 任务ID
- */
+    /**
+     * 查询任务详情
+     * @param string  $ProjectID 任务ID
+     */
     public function GetProjectList($projectID = null)
     {
         return $this->docommit(__FUNCTION__, array(
@@ -107,9 +106,9 @@ class MpcClientComponent extends Component {
     }
 
     /**
- * 查询工位详情
- * @param int $JobID 工位ID
- */
+     * 查询工位详情
+     * @param int $JobID 工位ID
+     */
     public function GetJobList($JobID = null)
     {
         return $this->docommit(__FUNCTION__, array(
@@ -117,10 +116,10 @@ class MpcClientComponent extends Component {
         ));
     }
 
-/**
- * 删除任务
- * @param string $ProjectID 任务ID
- */
+    /**
+     * 删除任务
+     * @param string $ProjectID 任务ID
+     */
     public function DeleteProject($ProjectID = null)
     {
         return $this->docommit(__FUNCTION__, array(
@@ -128,10 +127,10 @@ class MpcClientComponent extends Component {
         ));
     }
 
-/**
- * 暂停指定工位
- * @param int $JobID 工位ID
- */
+    /**
+     * 暂停指定工位
+     * @param int $JobID 工位ID
+     */
     public function PauseJob($JobID = null)
     {
         return $this->docommit(__FUNCTION__, array(
@@ -139,10 +138,10 @@ class MpcClientComponent extends Component {
         ));
     }
 
-/**
- * 恢复指定工位
- * @param int $JobID 工位ID
- */
+    /**
+     * 恢复指定工位
+     * @param int $JobID 工位ID
+     */
     public function ResumeJob($JobID = null)
     {
         return $this->docommit(__FUNCTION__, array(
@@ -150,10 +149,10 @@ class MpcClientComponent extends Component {
         ));
     }
 
-/**
- * 取消指定工位
- * @param int $JobID 工位ID
- */
+    /**
+     * 取消指定工位
+     * @param int $JobID 工位ID
+     */
     public function CancelJob($JobID = null)
     {
         return $this->docommit(__FUNCTION__, array(
@@ -161,11 +160,11 @@ class MpcClientComponent extends Component {
         ));
     }
 
-/**
- * 设置指定任务优先级
- * @param string $ProjectID 任务ID
- * @param int    $Priority  优先级值
- */
+    /**
+     * 设置指定任务优先级
+     * @param string $ProjectID 任务ID
+     * @param int    $Priority  优先级值
+     */
     public function SetProjectPriority($ProjectID, $Priority)
     {
         return $this->docommit(__FUNCTION__, array(
@@ -174,10 +173,10 @@ class MpcClientComponent extends Component {
         ));
     }
 
-/**
- * 重置工位
- * @param string $JobID 步骤ID
- */
+    /**
+     * 重置工位
+     * @param string $JobID 步骤ID
+     */
     public function ResetJob($JobID)
     {
         return $this->docommit(__FUNCTION__, array(
@@ -185,27 +184,28 @@ class MpcClientComponent extends Component {
         ));
     }
 
-/**
- * 添加任务
- * @param array files 待转码文件参数
- * @param array settings 附加设置
- */
+    /**
+     * 添加任务
+     * @param array files 待转码文件参数
+     * @param array settings 附加设置
+     */
     public function AddTask($files = array(), $settings = array()) {
         $taskGUID = strtoupper(String::uuid()); //生成任务ID
-        $publicTime = date('Y-m-d H:i:s');      //任务产生时间
+        $publicTime = date('Y-m-d H:i:s'); //任务产生时间
 
+        //审核默认栏目 AUDIT_DEFAULT_COLUMN=>"1400,xBuilder入库"
         $columnInfo = explode(',',AUDIT_DEFAULT_COLUMN);
 
         $req_data = array(
-            'MPCWebCmd'   =>  array(
-                'CommandType'   =>  __FUNCTION__,
-                __FUNCTION__    =>  array(
-                    'MPC'   =>  array(
-                        'Header'    =>  array(
-                            'Version'       =>  '1.0',
-                            'RequestID'     =>  $taskGUID,
-                            'RequestTime'   =>  $publicTime,
-                            'RequestMQ'     =>  ''
+            'MPCWebCmd' => array(
+                'CommandType' => __FUNCTION__,
+                __FUNCTION__  =>array(
+                    'MPC'=>  array(
+                            'Header' =>  array(
+                                'Version'       =>  '1.0',
+                                'RequestID'     =>  $taskGUID,
+                                'RequestTime'   =>  $publicTime,
+                                'RequestMQ'     =>  ''
                         ),
                         'Content'   =>  array(
                             'MPCType'       =>  __FUNCTION__,
@@ -245,7 +245,7 @@ class MpcClientComponent extends Component {
                 )
             ));
         
-        if(isset($settings['policyID'])){       //走策略方式
+        if(isset($settings['policyID'])){//走策略方式
             $req_data['MPCWebCmd'][__FUNCTION__]['MPC']['Content'][__FUNCTION__]['PolicyID'] = $settings['policyID'];
         }elseif ($settings['transType'] == 'joblist') {
             foreach ($settings['joblist'] as $key=>$value) {
@@ -382,7 +382,6 @@ class MpcClientComponent extends Component {
                     'InPoint'   =>  0,
                     'OutPoint'  =>  $OutPoint
                 );
-
         }
 
         if(isset($settings['platFormID']) || isset($settings['metaData'])){
@@ -398,7 +397,6 @@ class MpcClientComponent extends Component {
             if(isset($settings['platFormID'])){
                 $platformInfo = $this->platformInfoXML($settings['platFormID']);
                 $result = str_replace('<NewMediaBaseInfo/>', $platformInfo, $result);
-                
                 $mediaInfo = $this->addMediaInfo($settings);
                 $result = str_replace('<AddMediaInfo/>', $mediaInfo, $result);
             }
@@ -420,12 +418,12 @@ class MpcClientComponent extends Component {
         return $this->docommit(__FUNCTION__);
     }
 
-/**
- * 扩充taskinfo节点内容
- * @param  array $pgmId 平台ID
- * @param  array $settings 转码配置
- * @return void
- */
+    /**
+     * 扩充taskinfo节点内容
+     * @param  array $pgmId 平台ID
+     * @param  array $settings 转码配置
+     * @return void
+     */
     private function documentXML($pgmId, $settings){
         $columnInfo = explode(',',AUDIT_DEFAULT_COLUMN);
 
@@ -461,11 +459,11 @@ class MpcClientComponent extends Component {
         return str_replace("\n","",str_replace('<?xml version="1.0" encoding="UTF-8"?>', '', Xml::fromArray($xml)->asXML()));
     }
 
-/**
- * 生成下发平台相关XML
- * @param  array  $platFormID 下发平台ID
- * @return string             生成的XML
- */
+    /**
+     * 生成下发平台相关XML
+     * @param  array  $platFormID 下发平台ID
+     * @return string             生成的XML
+     */
     private function platformInfoXML($platFormID = array()){
         if(!$platFormID) return '';
 
@@ -486,13 +484,13 @@ class MpcClientComponent extends Component {
         return str_replace("\n","",str_replace('<?xml version="1.0" encoding="UTF-8"?>', '', Xml::fromArray($xml)->asXML()));
     }
 
-/**
- * 生成编目数据相关XML
- * @param  array  $metaData 编目数据
- * @param  string $pgmId    平台ID
- * @param  array  $settings 任务配置信息
- * @return string           生成的XML
- */
+    /**
+     * 生成编目数据相关XML
+     * @param  array  $metaData 编目数据
+     * @param  string $pgmId    平台ID
+     * @param  array  $settings 任务配置信息
+     * @return string           生成的XML
+     */
     private function editcatalogXML($metaData = array(), $pgmId, $settings){
         if(!$metaData) return '';
 
@@ -639,10 +637,10 @@ class MpcClientComponent extends Component {
         return str_replace("\n","",str_replace('<?xml version="1.0" encoding="UTF-8"?>', '', Xml::fromArray($xml)->asXML()));
     }
 
-/**
- * 添加媒资入库信息
- * @param array $settings 任务设置
- */
+    /**
+     * 添加媒资入库信息
+     * @param array $settings 任务设置
+     */
     public function addMediaInfo($settings = array()){
         $clipGuid = strtolower(str_replace('-', '', String::uuid()));
         $publicTime = date('Y-m-d H:i:s');
@@ -759,12 +757,12 @@ class MpcClientComponent extends Component {
         return str_replace("\n","",str_replace('<?xml version="1.0" encoding="UTF-8"?>', '', Xml::fromArray($xml)->asXML()));
     }
 
-/**
- * 构造发送的XML
- * @param  string $CommandType 要执行的操作/函数
- * @param  array  $CommandArgs 操作附带的参数
- * @return string              协议XML字符串
- */
+    /**
+     * 构造发送的XML
+     * @param  string $CommandType 要执行的操作/函数
+     * @param  array  $CommandArgs 操作附带的参数
+     * @return string              协议XML字符串
+     */
     public function buildXml($CommandType, $CommandArgs=array()) {
         if(!$CommandType) return false;
 
@@ -781,12 +779,12 @@ class MpcClientComponent extends Component {
         return Xml::fromArray($req_data)->asXML();
     }
 
-/**
- * 执行发送和返回状态检测
- * @param  string $CommandType 要执行的操作/函数
- * @param  array  $CommandArgs 操作附带的参数
- * @return boolean             执行操作结果
- */
+    /**
+     * 执行发送和返回状态检测
+     * @param  string $CommandType 要执行的操作/函数
+     * @param  array  $CommandArgs 操作附带的参数
+     * @return boolean             执行操作结果
+     */
     public function docommit($CommandType, $CommandArgs=array(), $req_data = null) {
         if(!$CommandType) return false;
 
@@ -795,11 +793,13 @@ class MpcClientComponent extends Component {
         }
         $req_data = str_replace('<CDATA/>', '<![CDATA[', $req_data);
         $req_data = str_replace('<ECDATA/>', ']]>', $req_data);
-
-//$this->log($req_data,'MpcClient');
+        //$file = fopen('Baowen.xml', 'w');
+        //fwrite($file, $req_data);
+        //fclose($file);
+        //$this->log($req_data,'MpcClient');
         try {
             $returnXmlContent = $this->soapClient->mpccommit($req_data);
-//$this->log($returnXmlContent, 'MpcClient');
+            //$this->log($returnXmlContent, 'MpcClient');
             $xmlObject = Xml::build($returnXmlContent);
 
             //检测错误
@@ -819,12 +819,13 @@ class MpcClientComponent extends Component {
         }
     }
 
-/**
- * 错误处理函数
- * @param string  $info 错误描述
- * @param integer $code 错误代码
- */
-    private function setError($info, $code=1) {
-        $this->log($info,'MpcClient');
+    /**
+     * 错误处理函数
+     * @param string  $info 错误描述
+     * @param integer $code 错误代码
+     */
+    private function setError($info, $code = 1)
+    {
+        $this->log($info, 'MpcClient');
     }
 }

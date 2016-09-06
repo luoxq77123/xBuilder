@@ -43,15 +43,14 @@ class WebservicesController extends AppController
 
             if (!$wsdl) {
                 $namespace = "http://www.sobey.com/newmedia";
-                
                 //生成wsdl文件
                 $wsdl = sprintf("%s", PhpWSDL::genWSDL(
-                                                $this->className, 
-                                                $this->location, 
-                                                $namespace,
-                                                'rpc',
-                                                true
-                                            )); 
+                    $this->className,
+                    $this->location,
+                    $namespace,
+                    'rpc',
+                    true
+                ));
             }
             Cache::write('webservice',$wsdl);   //写入缓存
             $this->set(compact('wsdl'));           
@@ -67,12 +66,12 @@ class WebservicesController extends AppController
 	public function soapHandle(){
         $this->autoRender = false;
         //实例化webservice服务对象
-		$server = new SoapServer($this->location.'.xml?wsdl',
-                            array(
-                                'exceptions' => true,
-                                'encoding' => 'UTF-8',
-                                'soap_version' => SOAP_1_2
-                            ));
+        $server = new SoapServer($this->location . '.xml?wsdl',
+            array(
+                'exceptions' => true,
+                'encoding' => 'UTF-8',
+                'soap_version' => SOAP_1_2
+            ));
 
         //post raw content
         /*$data = file_get_contents("php://input");

@@ -58,7 +58,6 @@ class UploadsController extends AppController
 				'meta_data' => $this->request->data['metaData']
 			);
 			$content = $this->Content->save($contentData);
-
 			$saveData['Video'] = array(
 				'content_id' => $content['Content']['id'],
 				'originalFile' => 1,
@@ -73,7 +72,6 @@ class UploadsController extends AppController
 
 			$this->Session->setFlash(__('Upload video success', $this->request->data['filename']));
 			$this->_setLogs($this->request->data['user_name']);
-
 			App::uses('MaterialsController', 'Controller');
 			$this->MaterialsController = new MaterialsController();
 			if ($this->MaterialsController) {
