@@ -27,9 +27,6 @@
                 <input type="text" id="account" name="data[User][account]" maxlength="24" class="required" />
                 <span class="inputInfo"></span>
             </div>
-            
-            
-            
         </div>
         
         <div class="formBar">

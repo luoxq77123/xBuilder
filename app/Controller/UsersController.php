@@ -44,9 +44,8 @@ class UsersController extends AppController{
 	 * 用户添加
 	 */
 	public function add(){
-		
-		if($this->request->data){
 
+		if($this->request->data){
 			if ($this->User->findByEmail($this->request->data['User']['email'])){
 				return $this->jsonToDWZ(array(
 						'message'=>__('User already exists', array($this->request->data['User']['email']))
@@ -62,8 +61,10 @@ class UsersController extends AppController{
 			}
 		}
 
+       
 		$roles = $this->Role->find('list', array('order' => 'sort ASC'));
 		$this->set(compact('roles'));
+
 	}
 	
 	/**
@@ -236,5 +237,7 @@ class UsersController extends AppController{
 		$this->Captcha = $this->Components->load('Captcha');
 		$this->Captcha->create($this->Components);
 	}
+
+    
 }
 ?>
